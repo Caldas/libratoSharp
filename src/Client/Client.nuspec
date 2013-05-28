@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>Fabio Caldas</authors>
+    <owners></owners>
+    <projectUrl>https://github.com/Caldas/libratoSharp</projectUrl>
+    <id>libratoSharp</id>
+    <title>Librato C Sharp Library</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>C# Library for Librato Metrics</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright © 2013</copyright>
+    <tags>c sharp librato metrics</tags>
+	<references>
+    </references>
+  </metadata>
+ </package>
