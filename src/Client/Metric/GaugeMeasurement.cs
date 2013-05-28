@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Client.Metric
+namespace LibratoSharp.Client.Metric
 {
 	public class GaugeMeasurement : Gauge, IMeasurement, IMetric
 	{

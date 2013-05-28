@@ -7,8 +7,8 @@
     <ProjectGuid>{94014FAC-57A9-46C8-AC65-6CED527B17E4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Client</RootNamespace>
-    <AssemblyName>Client</AssemblyName>
+    <RootNamespace>LibratoSharp.Client</RootNamespace>
+    <AssemblyName>LibratoSharp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

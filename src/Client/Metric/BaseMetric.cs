@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Client.Metric
+namespace LibratoSharp.Client.Metric
 {
 	public abstract class BaseMetric : IMetric
 	{

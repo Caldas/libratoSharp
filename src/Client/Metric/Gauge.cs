@@ -1,5 +1,5 @@
 ﻿
-namespace Client.Metric
+namespace LibratoSharp.Client.Metric
 {
 	public class Gauge : BaseMetric
 	{
