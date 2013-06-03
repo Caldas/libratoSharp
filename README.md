@@ -5,6 +5,9 @@ libratoSharp
 
 *** Version backlog
 
+** 0.5.5.22997
+* Added Counter Measurement
+
 ** 0.5.4.33979
 * Fix Assembly Name and Initial namespace
 
