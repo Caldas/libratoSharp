@@ -1,6 +1,7 @@
-﻿using System;
+﻿using LibratoSharp.Client.Metric;
+using System;
 
-namespace LibratoSharp.Client.Metric
+namespace LibratoSharp.Client.Measurement
 {
 	public interface IMeasurement : IMetric
 	{

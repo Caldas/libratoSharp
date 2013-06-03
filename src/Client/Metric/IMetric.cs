@@ -1,13 +1,8 @@
 ﻿
 namespace LibratoSharp.Client.Metric
 {
-	public interface IMetric
+	public interface IMetric : ILibratoEntity
 	{
-		string Name
-		{
-			get;
-		}
-
 		int Period
 		{
 			get;

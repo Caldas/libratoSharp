@@ -1,14 +1,17 @@
-﻿using LibratoSharp.Client.Metric;
+﻿using LibratoSharp.Client.Measurement;
+using LibratoSharp.Client.Metric;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Linq;
 
 namespace LibratoSharp.Client
 {
-    public class MetricsManager
-    {
+	public class MetricsManager
+	{
 		private const string METRICS_API_SERVER = "metrics-api.librato.com";
 		private const string METRICS_URL = "https://metrics-api.librato.com/v1/metrics";
 		private const string METRICS_PUT_POST = "/{0}";
@@ -21,10 +24,10 @@ namespace LibratoSharp.Client
 		private const string JSON_MEASUREMENT_VALUE = "value";
 		private const string JSON_MEASUREMENT_TIME = "measurement_time";
 		private const string JSON_MEASUREMENT_SOURCE = "source";
-		
+
 		private string _user;
 		private string _apiToken;
-		
+
 		public MetricsManager(string user, string apiToken)
 		{
 			if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(apiToken))
@@ -39,7 +42,7 @@ namespace LibratoSharp.Client
 		{
 			if (measurement == null)
 			{
-				throw new ArgumentException("measurement is null");
+				return;
 			}
 			this.PostMeasurement(new IMeasurement[]
 			{
@@ -47,17 +50,26 @@ namespace LibratoSharp.Client
 			});
 		}
 
-		public void PostMeasurement(IMeasurement[] measurements)
+		public void PostMeasurement(params IMeasurement[] measurements)
 		{
 			if (measurements == null || measurements.Length == 0)
 			{
-				throw new ArgumentException("measurements does not contain a measurement");
+				return;
+			}
+			this.PostMeasurement(measurements.ToList());
+		}
+
+		public void PostMeasurement(List<IMeasurement> measurements)
+		{
+			if (measurements == null || measurements.Count == 0)
+			{
+				return;
 			}
 			string json = this.CreateJsonObject(measurements);
 			this.MakeJsonPost(json, null, null);
 		}
 
-		private string CreateJsonObject(IMeasurement[] measurements)
+		private string CreateJsonObject(IEnumerable<IMeasurement> measurements)
 		{
 			StringBuilder sb = new StringBuilder();
 			StringWriter sw = new StringWriter(sb);
@@ -66,14 +78,16 @@ namespace LibratoSharp.Client
 			{
 				writer.Formatting = Formatting.Indented;
 				writer.WriteStartObject();
-				writer.WritePropertyName("gauges");
-				writer.WriteStartArray();
-				for (int i = 0; i < measurements.Length; i++)
+				foreach (IGrouping<string, IMeasurement> measurementByType in measurements.GroupBy(measurement => measurement.Type))
 				{
-					IMeasurement currentMeasurement = measurements[i];
-					this.JsonWriteMeasurement(writer, currentMeasurement);
+					writer.WritePropertyName(measurementByType.Key + "s");
+					writer.WriteStartArray();
+					foreach (IMeasurement measurement in measurements.Where(m => m.Type == measurementByType.Key))
+					{
+						this.JsonWriteMeasurement(writer, measurement);
+					}
+					writer.WriteEnd();
 				}
-				writer.WriteEnd();
 				writer.WriteEndObject();
 			}
 			return sb.ToString();
@@ -126,7 +140,7 @@ namespace LibratoSharp.Client
 			this.JsonAddMetricInfo(writer, measurement, true);
 			writer.WritePropertyName("value");
 			writer.WriteValue(measurement.Value.ToString());
-			if (measurement.MeasurementTime != GaugeMeasurement.NO_TIME_SET)
+			if (measurement.MeasurementTime != DateTime.MinValue && measurement.MeasurementTime != default(DateTime))
 			{
 				long unixTimestamp = this.GetUnixTimestamp(measurement.MeasurementTime);
 				writer.WritePropertyName("measurement_time");
@@ -200,5 +214,5 @@ namespace LibratoSharp.Client
 			DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 			return (long)Math.Floor((dt - origin).TotalSeconds);
 		}
-    }
+	}
 }

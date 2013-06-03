@@ -1,7 +1,7 @@
 ﻿
 namespace LibratoSharp.Client.Metric
 {
-	public class Gauge : BaseMetric
+	public class GaugeMetric : BaseMetric
 	{
 		public override string Type
 		{
@@ -11,7 +11,7 @@ namespace LibratoSharp.Client.Metric
 			}
 		}
 
-		public Gauge(string name)
+		public GaugeMetric(string name)
 			: base(name)
 		{
 		}

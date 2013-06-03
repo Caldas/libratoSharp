@@ -42,12 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ILibratoEntity.cs" />
+    <Compile Include="LibratoEntityType.cs" />
+    <Compile Include="Measurement\CounterMeasurement.cs" />
     <Compile Include="MetricsManager.cs" />
     <Compile Include="Metric\BaseMetric.cs" />
-    <Compile Include="Metric\Gauge.cs" />
-    <Compile Include="Metric\GaugeMeasurement.cs" />
-    <Compile Include="Metric\IMeasurement.cs" />
+    <Compile Include="Metric\GaugeMetric.cs" />
+    <Compile Include="Measurement\GaugeMeasurement.cs" />
+    <Compile Include="Measurement\IMeasurement.cs" />
     <Compile Include="Metric\IMetric.cs" />
+    <Compile Include="Metric\CounterMetric.cs" />
     <Compile Include="Metric\MetricAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
