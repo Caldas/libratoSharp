@@ -5,6 +5,9 @@ libratoSharp
 
 *** Version backlog
 
+** 0.5.6.33367
+* Added Gauge Specific Parameters
+
 ** 0.5.5.22997
 * Added Counter Measurement
 

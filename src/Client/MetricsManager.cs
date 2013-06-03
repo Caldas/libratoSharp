@@ -110,9 +110,9 @@ namespace LibratoSharp.Client
 			return sb.ToString();
 		}
 
-		private void JsonAddMetricInfo(JsonWriter writer, IMetric metric, bool fIncludeName)
+		private void JsonAddMetricInfo(JsonWriter writer, IMetric metric, bool includeName)
 		{
-			if (fIncludeName)
+			if (includeName)
 			{
 				writer.WritePropertyName("name");
 				writer.WriteValue(metric.Name);
@@ -138,8 +138,6 @@ namespace LibratoSharp.Client
 		{
 			writer.WriteStartObject();
 			this.JsonAddMetricInfo(writer, measurement, true);
-			writer.WritePropertyName("value");
-			writer.WriteValue(measurement.Value.ToString());
 			if (measurement.MeasurementTime != DateTime.MinValue && measurement.MeasurementTime != default(DateTime))
 			{
 				long unixTimestamp = this.GetUnixTimestamp(measurement.MeasurementTime);
@@ -150,6 +148,39 @@ namespace LibratoSharp.Client
 			{
 				writer.WritePropertyName("source");
 				writer.WriteValue(measurement.Source);
+			}
+			if (measurement.Type == "gauge")
+			{
+				IGaugeMeasurement gaugeMeasurement = (IGaugeMeasurement)measurement;
+
+				writer.WritePropertyName("count");
+				writer.WriteValue(gaugeMeasurement.Count);
+
+				writer.WritePropertyName("sum");
+				writer.WriteValue(gaugeMeasurement.Sum);
+
+				if (gaugeMeasurement.Max != default(object)) 
+				{
+					writer.WritePropertyName("max");
+					writer.WriteValue(gaugeMeasurement.Max);
+				}
+
+				if (gaugeMeasurement.Min != default(object))
+				{
+					writer.WritePropertyName("min");
+					writer.WriteValue(gaugeMeasurement.Min);
+				}
+
+				if (gaugeMeasurement.SumSquares != default(object))
+				{
+					writer.WritePropertyName("sum_squares");
+					writer.WriteValue(gaugeMeasurement.SumSquares);
+				}
+			}
+			else
+			{
+				writer.WritePropertyName("value");
+				writer.WriteValue(measurement.Value.ToString());
 			}
 			writer.WriteEndObject();
 		}
